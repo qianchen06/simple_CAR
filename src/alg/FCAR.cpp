@@ -567,6 +567,8 @@ bool FCAR::Generalize(cube &uc, int frame_lvl, int rec_lvl) {
     vector<cube> failed_ctses;
     OrderAssumption(uc);
     setupScope = m_log.Section("FC_Gen_Loop");
+    const int maxMicAttempts = 3;
+    size_t attempts = maxMicAttempts;
     for (int i = uc.size() - 1; i >= 0; i--) {
         if (uc.size() < 2) break;
         if (required_lits.find(uc.at(i)) != required_lits.end()) continue;
@@ -579,7 +581,12 @@ bool FCAR::Generalize(cube &uc, int frame_lvl, int rec_lvl) {
             uc.swap(temp_uc);
             OrderAssumption(uc);
             i = uc.size();
+            attempts = maxMicAttempts;
         } else {
+            if (--attempts == 0) {
+                m_log.L(3, "Max MIC attempts reached, stopping generalization.");
+                break;
+            }
             required_lits.emplace(uc.at(i));
         }
     }
