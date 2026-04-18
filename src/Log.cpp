@@ -137,6 +137,15 @@ void Log::PrintCustomStatistics() {
              << "per: " << fixed << setprecision(6) << 0.0 << endl;
     }
 
+    if (!m_customCounters.empty()) {
+        cout << endl
+             << "Counters:" << endl;
+        for (const auto &entry : m_customCounters) {
+            cout << "  " << left << setw(28) << entry.first
+                 << entry.second << endl;
+        }
+    }
+
     cout << "Total Time     spent: " << fixed << setprecision(2)
          << GetTimeDouble(chrono::duration_cast<std::chrono::microseconds>(
                 chrono::steady_clock::now() - m_begin))

@@ -577,7 +577,9 @@ bool FCAR::Generalize(cube &uc, int frame_lvl, int rec_lvl) {
         temp_uc.reserve(uc.size());
         for (auto ll : uc)
             if (ll != uc.at(i)) temp_uc.emplace_back(ll);
+        m_log.IncCustomCounter("FC_Down_Attempts");
         if (Down(temp_uc, frame_lvl, rec_lvl, failed_ctses)) {
+            m_log.IncCustomCounter("FC_Down_Success");
             uc.swap(temp_uc);
             OrderAssumption(uc);
             i = uc.size();

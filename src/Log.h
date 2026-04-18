@@ -5,6 +5,7 @@
 #include "signal.h"
 #include <assert.h>
 #include <chrono>
+#include <cstdint>
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -61,6 +62,10 @@ class Log {
     }
 
     void PrintCustomStatistics();
+
+    inline void IncCustomCounter(const string &name, uint64_t delta = 1) {
+        m_customCounters[name] += delta;
+    }
 
     ScopedTimer Section(const string &name) {
         if (m_verbosity == 0) return ScopedTimer();
@@ -177,6 +182,7 @@ class Log {
     chrono::time_point<chrono::steady_clock> m_begin;
 
     unordered_map<string, CustomTimeStat> m_customStats;
+    unordered_map<string, uint64_t> m_customCounters;
     vector<ActiveSection> m_timerStack;
 
     void AddCustomTime(const string &name, chrono::microseconds time);

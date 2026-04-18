@@ -1,0 +1,3 @@
+./simpleCAR -a fcar -s minicore --ctg_max_rec_lvl 0 --ctg_max_states 0 -v 1 ~/input/cases/93.c.aig > ../output/output1.txt
+
+./simpleCAR -a fcar -s minicore -v 1 ~/input/cases/93.c.aig > ../output/output2.txt
